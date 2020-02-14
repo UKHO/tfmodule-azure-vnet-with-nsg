@@ -1,4 +1,4 @@
-# Terraform Module: vnet with nsg
+# Terraform Module: for Azure vnet with nsg
 
 ## Caveat
 
@@ -28,7 +28,7 @@ if you arent woried about the version you use, latest can be retrieved by removi
 
 subnets are created using an array expecting a `name` and a `number`, number should increment from 0.
 
-It is also worth noting, the addition of newbits to the base address should not exceed 29. Azure has the habit of absorbing 5 ip addresses per subnet. so the smallest you could go it a range of 8 ips (29).
+It is also worth noting, the addition of newbits to the base address should not exceed /29. Azure has the habit of absorbing 5 ip addresses per subnet. so the smallest you could go it a range of 8 ips (/29). with a newbits of 4, this would imply a minimum base of /25 is needed.
 
 ```
 [{
