@@ -24,5 +24,5 @@ variable "service_endpoints" {
 
 variable "tags" {
   type = map
-  default = ""
+  default = {}
 }
