@@ -7,11 +7,6 @@
 ## Usage
 
 ```terraform
-resource "azurerm_resource_group" "gg" {
-  name = "existing-rg"
-  location = "UKSouth"
-}
-
 variable "address" {
   default = "10.0.1.0/24"
 }
@@ -34,6 +29,12 @@ variable "tags" {
   default = {
     ENVIRONMENT      = "Dev"
   }
+}
+
+resource "azurerm_resource_group" "gg" {
+  name = "existing-rg"
+  location = "UKSouth"
+  tags = var.tags
 }
 
 module "setup" {
