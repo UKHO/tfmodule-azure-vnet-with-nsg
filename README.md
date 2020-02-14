@@ -4,7 +4,7 @@
 
 - `Resource Group` exists or is created external to the module.
 
-## Useage
+## Usage
 
 resource "azurerm_resource_group" "gg" {
   name = "resourcegroup-rg"
