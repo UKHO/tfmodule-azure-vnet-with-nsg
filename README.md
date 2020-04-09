@@ -41,7 +41,7 @@ module "setup" {
   source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=1.0.0"
   prefix                        = "Prefix"
   tags                          = "${var.tags}"
-  resource_group_name           = azurerm_resource_group.gg.name
+  resource_group                = azurerm_resource_group.gg
   address                       = "${var.address}"
   subnets                       = "${var.subnets}"
   newbits                       = "4"
