@@ -2,8 +2,12 @@ variable "prefix" {
   description = "Prefix added to the front of the nsg and vnet" 
 }
 
-variable "resource_group_name" {
-  description = "name of resource group resources will be added to"
+variable "resource_group" {
+  description = "resource group object resources will be added to"
+  type = object({
+    name         = string
+    location     = string
+  })
 }
 
 variable "address" {  
