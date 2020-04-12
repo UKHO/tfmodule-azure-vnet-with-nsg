@@ -36,7 +36,8 @@ jobs:
       run: |
         cd main
         project=${{ github.repository }}
-        project=${project/UKHO///}
+        replace=''
+        project=${project/UKHO/replace}
         mkdir ../docs/$project
         cp README.md ../docs/${{  github.repository }}
         cd ../docs
