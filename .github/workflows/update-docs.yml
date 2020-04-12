@@ -35,7 +35,8 @@ jobs:
     - name: Run a multi-line script
       run: |
         cd main
-        mkdir ../docs/${{  github.repository }}
+        project= sed -i 's/UKHO//' ${{ github.repository }}
+        mkdir ../docs/$project
         cp README.md ../docs/${{  github.repository }}
         cd ../docs
         git add .
