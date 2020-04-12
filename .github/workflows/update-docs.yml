@@ -35,12 +35,12 @@ jobs:
     - name: Run a multi-line script
       run: |
         cd main
-        project=${{ github.repository }}
-        replace=''
-        project=${project/UKHO/$replace}
+        repo=${{ github.repository }}
+        char="/"
+        project=${repo#$char}
         mkdir ../docs/$project
-        cp README.md ../docs/${{  github.repository }}
+        cp README.md ../docs/$project
         cd ../docs
         git add .
-        git commit -m "Update on ${{ github.repository }}"
+        git commit -m "Update on $project"
         git push
