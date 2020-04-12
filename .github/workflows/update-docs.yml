@@ -36,8 +36,8 @@ jobs:
       run: |
         cd main
         repo=${{ github.repository }}
-        char="/"
-        project=${repo#$char}
+        char="UKHO/"
+        project=${repo#*$char}
         mkdir ../docs/$project
         cp README.md ../docs/$project
         cd ../docs
