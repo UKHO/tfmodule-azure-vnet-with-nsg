@@ -14,6 +14,12 @@ variable "address" {
   description = "base address for subnets to be added"
 }
 
+variable "dns_servers" {
+  description = "ips for dns server"
+  default = []
+}
+
+
 variable "subnets" {    
   description = "array of subnets"
 }

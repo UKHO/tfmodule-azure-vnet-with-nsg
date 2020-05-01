@@ -6,7 +6,8 @@ resource "azurerm_network_security_group" "nsg" {
   name                = "${var.prefix}-nsg"
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
-  tags                = var.tags
+
+  tags = var.tags
   lifecycle { ignore_changes = [tags] }
 }
 
@@ -15,6 +16,7 @@ resource "azurerm_virtual_network" "spokevnet" {
   address_space       = [local.base_cidr_block]
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
+  dns_servers         = var.dns_servers
   tags                = var.tags
   lifecycle { ignore_changes = [tags] }
 
