@@ -3,6 +3,7 @@
 ## Required Resources
 
 - `Resource Group` exists or is created external to the module.
+- `Provider` must be created external to the module.
 
 ## Usage
 
@@ -31,6 +32,18 @@ variable "tags" {
   }
 }
 
+variable "subscriptionId {
+default="12312312312-312-312-3-12"
+}
+
+provider "azurerm" {
+  version = "=2.20.0"
+  features {}
+  alias           = "alias"
+  subscription_id = var.SubscriptionId
+}
+
+
 resource "azurerm_resource_group" "gg" {
   name = "existing-rg"
   location = "UKSouth"
@@ -38,7 +51,10 @@ resource "azurerm_resource_group" "gg" {
 }
 
 module "setup" {
-  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=1.0.0"
+  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.4.0"
+  providers = {
+    azurerm.src = azurerm.alias
+  }
   prefix                        = "Prefix"
   tags                          = "${var.tags}"
   resource_group                = azurerm_resource_group.gg
