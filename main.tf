@@ -38,7 +38,8 @@ resource "azurerm_virtual_network" "spokevnet" {
     content {
       name           = subnet.value.name
       address_prefix = subnet.value.prefix
-      security_group = azurerm_network_security_group.nsg.id
+      security_group = azurerm_network_security_group.nsg.id      
+      service_endpoints = var.service_endpoints
     }
   }
 }
