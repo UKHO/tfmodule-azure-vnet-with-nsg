@@ -46,7 +46,7 @@ resource "azurerm_subnet" "spokesubnet" {
 
       service_delegation {
         name    = var.subnets[count.index].delegation.name
-        actions = try(var.subnets[count.index].delegation.actions, [])
+        actions = try(var.subnets[count.index].delegation.actions, ["Microsoft.Network/virtualNetworks/subnets/action"])
       }
     }
   }
