@@ -28,18 +28,18 @@ resource "azurerm_virtual_network" "spokevnet" {
   tags                = var.tags
   lifecycle { ignore_changes = [tags] }
 
+}
 
-  dynamic "subnet" {
-    for_each = [for s in var.subnets : {
-      name   = s.name
-      prefix = cidrsubnet("${local.base_cidr_block}", var.newbits, s.number)
-    }]
+resource "azurerm_subnet" "spokesubnet" {
+  count                = length(var.subnets)
+  name                 = var.subnets[count.index].name
+  resource_group_name  = var.resource_group.name
+  virtual_network_name = azurerm_virtual_network.spokevnet.name
+  address_prefixes     = [cidrsubnet("${local.base_cidr_block}", var.newbits, var.subnets[count.index].number)]
+  service_endpoints    = var.service_endpoints
+}
 
-    content {
-      name           = subnet.value.name
-      address_prefix = subnet.value.prefix
-      security_group = azurerm_network_security_group.nsg.id      
-      service_endpoints = var.service_endpoints
-    }
-  }
+resource "azurerm_subnet_network_security_group_association" "spokesubnetnsg" {
+  subnet_id                 = azurerm_subnet.spokesubnet.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
 }
