@@ -33,25 +33,27 @@ resource "azurerm_virtual_network" "spokevnet" {
 resource "azurerm_subnet" "spokesubnet" {
   count                = length(var.subnets)
   name                 = var.subnets[count.index].name
-  resource_group_name  = var.resource_group.name
+  provider             = azurerm.src
+  resource_group_name  = azurerm_resource_group.rg.name
   virtual_network_name = azurerm_virtual_network.spokevnet.name
-  address_prefixes     = [cidrsubnet("${local.base_cidr_block}", var.newbits, var.subnets[count.index].number)]
+  address_prefixes     = [cidrsubnet(local.base_cidr_block, var.newbits, var.subnets[count.index].number)]
   service_endpoints    = var.service_endpoints
 
   dynamic "delegation" {
-    for_each = length(var.subnets[count.index].delegation) > 0 ? [1] : []
+    for_each = try(var.subnets[count.index].delegation, null) == null ? [] : [1]
     content {
       name = "delegation"
 
       service_delegation {
         name    = var.subnets[count.index].delegation.name
-        actions = var.subnets[count.index].delegation.actions
+        actions = try(var.subnets[count.index].delegation.actions, [])
       }
     }
   }
 }
 
 resource "azurerm_subnet_network_security_group_association" "spokesubnetnsg" {
-  subnet_id                 = azurerm_subnet.spokesubnet.id
+  count                     = length(var.subnets)
+  subnet_id                 = azurerm_subnet.spokesubnet[count.index].id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
