@@ -53,6 +53,7 @@ resource "azurerm_subnet" "spokesubnet" {
 }
 
 resource "azurerm_subnet_network_security_group_association" "spokesubnetnsg" {
+  provider                  = azurerm.src
   count                     = length(var.subnets)
   subnet_id                 = azurerm_subnet.spokesubnet[count.index].id
   network_security_group_id = azurerm_network_security_group.nsg.id
