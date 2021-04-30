@@ -17,6 +17,10 @@ variable "subnets" {
     {
       name = "service-subnet"
       number = 0
+      delegation = {
+        name = "Microsoft.Web/serverFarms"
+        actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+      }
     }
   ]
 }
@@ -51,7 +55,7 @@ resource "azurerm_resource_group" "gg" {
 }
 
 module "setup" {
-  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.4.0"
+  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.5.0"
   providers = {
     azurerm.src = azurerm.alias
   }
@@ -77,6 +81,26 @@ It is also worth noting, the addition of newbits to the base address should not 
 [{
   name = "subnet1-subnet"
   number = 0
+},
+{
+  name = "subnet2-subnet"
+  number = 1
+}]
+```
+## Example for subnets with delegation
+
+In the instances where you want to delegate a specific subnet the addition of a deletagation value will allow for this setting.
+
+In this example we are assigning the first subnet to be used for a serverfarm.
+
+```terraform
+[{
+  name = "subnet1-subnet"
+  number = 0
+  delegation = {
+    name = "Microsoft.Web/serverFarms"
+    actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+  }
 },
 {
   name = "subnet2-subnet"
