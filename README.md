@@ -55,7 +55,7 @@ resource "azurerm_resource_group" "gg" {
 }
 
 module "setup" {
-  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.5.0"
+  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.5.1"
   providers = {
     azurerm.src = azurerm.alias
   }
