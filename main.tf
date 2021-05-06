@@ -49,6 +49,7 @@ resource "azurerm_subnet" "spokesubnet" {
        }
     }
   }
+}
 
 resource "azurerm_subnet_network_security_group_association" "spokesubnetnsg" {
   provider                  = azurerm.src
