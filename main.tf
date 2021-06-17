@@ -49,7 +49,7 @@ resource "azurerm_subnet" "spokesubnet" {
        }
     }
   }
-  lifecycle { ignore_changes = [enforce_private_link_endpoint_network_policies] }
+  lifecycle { ignore_changes = [enforce_private_link_endpoint_network_policies, delegation] }
 } 
 
 resource "azurerm_subnet_network_security_group_association" "spokesubnetnsg" {
