@@ -51,7 +51,7 @@ resource "azurerm_resource_group" "gg" {
 }
 
 module "setup" {
-  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.4.0"
+  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.4.1"
   providers = {
     azurerm.src = azurerm.alias
   }
@@ -60,7 +60,7 @@ module "setup" {
   resource_group                = azurerm_resource_group.gg
   address                       = "${var.address}"
   subnets                       = "${var.subnets}"
-  newbits                       = "4"
+  newbits                       = "${var.newbits}"
   service_endpoints             = "${var.endpoints}"
 }
 ```
