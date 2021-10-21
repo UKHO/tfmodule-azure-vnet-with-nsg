@@ -7,37 +7,43 @@
 
 ## Usage
 
-```terraform
-variable "address" {
-  default = "10.0.1.0/24"
+variable "prefix" { 
+  description = "Prefix added to the front of the nsg and vnet" 
 }
 
-variable "subnets" {
-  default = [
-    {
-      name = "service-subnet"
-      number = 0
-      delegation = {
-        name = "Microsoft.Web/serverFarms"
-        actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-      }
-    }
-  ]
+variable "resource_group" {
+  description = "resource group object resources will be added to"
+  type = object({
+    name         = string
+    location     = string
+  })
 }
 
-variable "endpoints" {
+variable "address" {  
+  description = "base address for subnets to be added"
+}
+
+variable "dns_servers" {
+  description = "ips for dns server"
+  default = []
+}
+
+
+variable "subnets" {    
+  description = "array of subnets"
+}
+
+variable "newbits" {
+  default = 4
+}
+
+variable "service_endpoints" {  
   default = ["Microsoft.Sql", "Microsoft.Storage", "Microsoft.KeyVault"]
 }
 
 variable "tags" {
   type = map
-  default = {
-    ENVIRONMENT      = "Dev"
-  }
-}
-
-variable "subscriptionId {
-default="12312312312-312-312-3-12"
+  default = {}
 }
 
 provider "azurerm" {
@@ -55,17 +61,18 @@ resource "azurerm_resource_group" "gg" {
 }
 
 module "setup" {
-  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.5.1"
+  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.8.1"
   providers = {
     azurerm.src = azurerm.alias
   }
-  prefix                        = "Prefix"
-  tags                          = "${var.tags}"
-  resource_group                = azurerm_resource_group.gg
-  address                       = "${var.address}"
-  subnets                       = "${var.subnets}"
-  newbits                       = "4"
-  service_endpoints             = "${var.endpoints}"
+  resource_group              = azurerm_resource_group.rg
+  tags                        = var.TAGS
+  prefix                      = var.ProjectIdentity
+  address                     = var.MAIN_ADDRESS
+  dns_servers                 = var.DNS_SERVERS
+  subnets                     = var.SUBNETS
+  newbits                     = var.NEWBITS
+  service_endpoints           = var.MAIN_ENDPOINTS
 }
 ```
 
