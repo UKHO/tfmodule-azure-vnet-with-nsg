@@ -7,6 +7,7 @@
 
 ## Usage
 
+```terraform
 variable "prefix" { 
   description = "Prefix added to the front of the nsg and vnet" 
 }
@@ -88,26 +89,6 @@ It is also worth noting, the addition of newbits to the base address should not 
 [{
   name = "subnet1-subnet"
   number = 0
-},
-{
-  name = "subnet2-subnet"
-  number = 1
-}]
-```
-## Example for subnets with delegation
-
-In the instances where you want to delegate a specific subnet the addition of a deletagation value will allow for this setting.
-
-In this example we are assigning the first subnet to be used for a serverfarm.
-
-```terraform
-[{
-  name = "subnet1-subnet"
-  number = 0
-  delegation = {
-    name = "Microsoft.Web/serverFarms"
-    actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-  }
 },
 {
   name = "subnet2-subnet"
