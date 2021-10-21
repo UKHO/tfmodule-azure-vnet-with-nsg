@@ -55,13 +55,14 @@ module "setup" {
   providers = {
     azurerm.src = azurerm.alias
   }
-  prefix                        = "Prefix"
-  tags                          = "${var.tags}"
-  resource_group                = azurerm_resource_group.gg
-  address                       = "${var.address}"
-  subnets                       = "${var.subnets}"
-  newbits                       = "${var.newbits}"
-  service_endpoints             = "${var.endpoints}"
+  resource_group              = azurerm_resource_group.rg
+  tags                        = var.TAGS
+  prefix                      = var.ProjectIdentity
+  address                     = var.MAIN_ADDRESS
+  dns_servers                 = var.DNS_SERVERS
+  subnets                     = var.SUBNETS
+  newbits                     = var.NEWBITS
+  service_endpoints           = var.MAIN_ENDPOINTS
 }
 ```
 
