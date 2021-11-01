@@ -9,6 +9,6 @@ resource "azurerm_network_security_rule" "deny" {
   destination_port_range      = "*"
   source_address_prefix       = "*"
   destination_address_prefix  = "Internet"
-  resource_group_name         = var.resource_group.rg.name
+  resource_group_name         = var.resource_group.name
   network_security_group_name = azurerm_network_security_group.nsg.name
 }
