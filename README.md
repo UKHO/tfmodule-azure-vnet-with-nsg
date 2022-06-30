@@ -17,10 +17,6 @@ variable "subnets" {
     {
       name = "service-subnet"
       number = 0
-      delegation = {
-        name = "Microsoft.Web/serverFarms"
-        actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-      }
     }
   ]
 }
@@ -88,25 +84,7 @@ It is also worth noting, the addition of newbits to the base address should not 
 }]
 ```
 ## Example for subnets with delegation
-
-In the instances where you want to delegate a specific subnet the addition of a deletagation value will allow for this setting.
-
-In this example we are assigning the first subnet to be used for a serverfarm.
-
-```terraform
-[{
-  name = "subnet1-subnet"
-  number = 0
-  delegation = {
-    name = "Microsoft.Web/serverFarms"
-    actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
-  }
-},
-{
-  name = "subnet2-subnet"
-  number = 1
-}]
-```
+Deligation is handled manually, there were too many moving parts for this to be handled with a dynamic loop
 
 ## Service Endpoints
 
