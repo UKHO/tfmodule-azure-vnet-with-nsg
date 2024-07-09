@@ -13,12 +13,11 @@ variable "address" {
 }
 
 variable "subnets" {
-  default = [
-    {
-      name = "service-subnet"
-      number = 0
-    }
-  ]
+  default = []
+}
+
+variable "subnets_with_delegation" {
+  default = []
 }
 
 variable "endpoints" {
@@ -51,7 +50,7 @@ resource "azurerm_resource_group" "gg" {
 }
 
 module "setup" {
-  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.5.1"
+  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.10.0"
   providers = {
     azurerm.src = azurerm.alias
   }
@@ -60,6 +59,7 @@ module "setup" {
   resource_group                = azurerm_resource_group.gg
   address                       = "${var.address}"
   subnets                       = "${var.subnets}"
+  subnets_with_delegation       = "${var.subnets_with_delegation}"
   newbits                       = "4"
   service_endpoints             = "${var.endpoints}"
 }
@@ -76,7 +76,7 @@ It is also worth noting, the addition of newbits to the base address should not 
 Each subnet can set it's own newbits or use the global value, if no newbit property is found it will always default to 4.
 
 ```terraform
-[{
+subnets = [{
   name = "subnet1-subnet"
   number = 0
 },
@@ -86,8 +86,20 @@ Each subnet can set it's own newbits or use the global value, if no newbit prope
   newbits = 1 #optional
 }]
 ```
+
 ## Example for subnets with delegation
-Deligation is handled manually, there were too many moving parts for this to be handled with a dynamic loop
+
+```terraform
+subnets_with_delegation = [{
+  name = "subnet3-subnet"
+  number = 2
+  delegation = {
+    name    = "Microsoft.Web/serverFarms"
+    actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+}]
+```
+
+N.B. because `subnet` and `subnet_with_delegation` handle blank arrays you can mix and match
 
 ## Service Endpoints
 
