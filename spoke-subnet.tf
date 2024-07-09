@@ -9,7 +9,7 @@ resource "azurerm_subnet" "spokesubnet" {
   lifecycle { ignore_changes = [delegation,private_endpoint_network_policies] }
 } 
 
-resource "azurerm_subnet" "spokedelegatedsubnet" {
+resource "azurerm_subnet" "spokesubnet_delegated" {
   count                = length(var.subnets_with_delegation)
   name                 = var.subnets_with_delegation[count.index].name
   provider             = azurerm.src
