@@ -24,6 +24,10 @@ variable "subnets" {
   description = "array of subnets"
 }
 
+variable "subnets_with_delegation" {    
+  description = "array of subnets"
+}
+
 variable "newbits" {
   default = 4
 }
