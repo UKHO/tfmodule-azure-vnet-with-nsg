@@ -16,16 +16,17 @@ variable "address" {
 
 variable "dns_servers" {
   description = "ips for dns server"
-  default = []
 }
 
 
 variable "subnets" {    
   description = "array of subnets"
+  default = []
 }
 
 variable "subnets_with_delegation" {    
   description = "array of subnets"
+  default = []
 }
 
 variable "newbits" {
