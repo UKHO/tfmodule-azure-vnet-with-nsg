@@ -100,6 +100,27 @@ subnets_with_delegation = [{
 ```
 
 N.B. because `subnet` and `subnet_with_delegation` handle blank arrays you can mix and match
+## Example with Subnet and delegated subnets
+
+```terraform
+subnets = [{
+  name = "subnet1-subnet"
+  number = 0
+},
+{
+  name = "subnet3-subnet"
+  number = 2
+}]
+subnets_with_delegation = [{
+  name = "subnet2-subnet"
+  number = 1
+  delegation = {
+    name    = "Microsoft.Web/serverFarms"
+    actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+}]
+```
+
+N.B. It is advised to create a new subnet instead of changing an existing subnet between the 2 options. unless you are happy to deal with the fall out.
 
 ## Service Endpoints
 
