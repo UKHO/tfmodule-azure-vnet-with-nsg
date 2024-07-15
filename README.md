@@ -73,6 +73,8 @@ subnets are created using an array expecting a `name` and a `number`, number sho
 
 It is also worth noting, the addition of newbits to the base address should not exceed /29. Azure has the habit of absorbing 5 ip addresses per subnet. so the smallest you could go it a range of 8 ips (/29). with a newbits of 4, this would imply a minimum base of /25 is needed.
 
+Each subnet can set it's own newbits or use the global value, if no newbit property is found it will always default to 4.
+
 ```terraform
 [{
   name = "subnet1-subnet"
@@ -81,6 +83,7 @@ It is also worth noting, the addition of newbits to the base address should not 
 {
   name = "subnet2-subnet"
   number = 1
+  newbits = 1 #optional
 }]
 ```
 ## Example for subnets with delegation
