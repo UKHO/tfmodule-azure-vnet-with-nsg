@@ -4,7 +4,7 @@ resource "azurerm_subnet" "spokesubnet" {
   provider             = azurerm.src
   resource_group_name  = var.resource_group.name
   virtual_network_name = azurerm_virtual_network.spokevnet.name
-  address_prefixes     = [cidrsubnet(local.base_cidr_block, var.newbits, var.subnets[count.index].number)]
+  address_prefixes     = [cidrsubnet(local.base_cidr_block, try(var.subnets[count.index].newbits,var.newbits), var.subnets[count.index].number)]
   service_endpoints    = var.service_endpoints
   lifecycle { ignore_changes = [delegation] }
 } 
