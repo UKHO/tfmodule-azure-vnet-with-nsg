@@ -15,7 +15,7 @@ resource "azurerm_subnet" "spokesubnet_delegated" {
   provider             = azurerm.src
   resource_group_name  = var.resource_group.name
   virtual_network_name = azurerm_virtual_network.spokevnet.name
-  address_prefixes     = [cidrsubnet(local.base_cidr_block, try(var.subnets[count.index].newbits,var.newbits), var.subnets_with_delegation[count.index].number)]
+  address_prefixes     = [cidrsubnet(local.base_cidr_block, try(var.subnets_with_delegation[count.index].newbits,var.newbits), var.subnets_with_delegation[count.index].number)]
   service_endpoints    = var.service_endpoints
   delegation {
       name = "delegation"
