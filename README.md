@@ -20,7 +20,7 @@ variable "subnets_with_delegation" {
   default = []
 }
 
-variable "endpoints" {
+variable "service_endpoints" {
   default = ["Microsoft.Sql", "Microsoft.Storage", "Microsoft.KeyVault"]
 }
 
