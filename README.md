@@ -69,11 +69,11 @@ if you arent woried about the version you use, latest can be retrieved by removi
 
 ## Example for subnets
 
-subnets are created using an array expecting a `name` and a `number`, number should increment from 0.
+subnets are created using an array expecting a `name` and a `number`, number should increment from 0. Optional variables of `newbit` and `service_endpoints` are also allowed. Each subnet can then set it's own `newbits` and `service_endpoints` or use the global values, for example, if no newbit property is found it will always default to 4. Using the `newbits` and `service_endpoints` variables per subnet allows for specific sizes and endpoints to be set.
 
 It is also worth noting, the addition of newbits to the base address should not exceed /29. Azure has the habit of absorbing 5 ip addresses per subnet. so the smallest you could go it a range of 8 ips (/29). with a newbits of 4, this would imply a minimum base of /25 is needed.
 
-Each subnet can set it's own newbits or use the global value, if no newbit property is found it will always default to 4.
+
 
 ```terraform
 subnets = [{
@@ -84,6 +84,12 @@ subnets = [{
   name = "subnet2-subnet"
   number = 1
   newbits = 1 #optional
+},
+{
+  name = "subnet3-subnet"
+  number = 4
+  newbits = 1 #optional
+  service_endpoints = ["Microsoft.Storage"]
 }]
 ```
 
