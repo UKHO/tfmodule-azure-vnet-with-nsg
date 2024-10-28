@@ -18,7 +18,7 @@ resource "azurerm_subnet" "spokesubnet_delegated" {
   address_prefixes     = [cidrsubnet(local.base_cidr_block, try(var.subnets_with_delegation[count.index].newbits,var.newbits), var.subnets_with_delegation[count.index].number)]
   service_endpoints    = try(var.subnets_with_delegation[count.index].service_endpoints,var.service_endpoints)
   delegation {
-      name = replace(var.subnets_with_delegation[count.index].delegation.name,'/','.')
+      name = replace(var.subnets_with_delegation[count.index].delegation.name,"/",".")
   
       service_delegation {
         name = var.subnets_with_delegation[count.index].delegation.name
