@@ -13,15 +13,14 @@ variable "address" {
 }
 
 variable "subnets" {
-  default = [
-    {
-      name = "service-subnet"
-      number = 0
-    }
-  ]
+  default = []
 }
 
-variable "endpoints" {
+variable "subnets_with_delegation" {
+  default = []
+}
+
+variable "service_endpoints" {
   default = ["Microsoft.Sql", "Microsoft.Storage", "Microsoft.KeyVault"]
 }
 
@@ -51,7 +50,7 @@ resource "azurerm_resource_group" "gg" {
 }
 
 module "setup" {
-  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.5.1"
+  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.10.0"
   providers = {
     azurerm.src = azurerm.alias
   }
@@ -60,6 +59,7 @@ module "setup" {
   resource_group                = azurerm_resource_group.gg
   address                       = "${var.address}"
   subnets                       = "${var.subnets}"
+  subnets_with_delegation       = "${var.subnets_with_delegation}"
   newbits                       = "4"
   service_endpoints             = "${var.endpoints}"
 }
@@ -69,14 +69,14 @@ if you arent woried about the version you use, latest can be retrieved by removi
 
 ## Example for subnets
 
-subnets are created using an array expecting a `name` and a `number`, number should increment from 0.
+subnets are created using an array expecting a `name` and a `number`, number should increment from 0. Optional variables of `newbit` and `service_endpoints` are also allowed. Each subnet can then set it's own `newbits` and `service_endpoints` or use the global values, for example, if no newbit property is found it will always default to 4. Using the `newbits` and `service_endpoints` variables per subnet allows for specific sizes and endpoints to be set.
 
 It is also worth noting, the addition of newbits to the base address should not exceed /29. Azure has the habit of absorbing 5 ip addresses per subnet. so the smallest you could go it a range of 8 ips (/29). with a newbits of 4, this would imply a minimum base of /25 is needed.
 
-Each subnet can set it's own newbits or use the global value, if no newbit property is found it will always default to 4.
+
 
 ```terraform
-[{
+subnets = [{
   name = "subnet1-subnet"
   number = 0
 },
@@ -84,10 +84,49 @@ Each subnet can set it's own newbits or use the global value, if no newbit prope
   name = "subnet2-subnet"
   number = 1
   newbits = 1 #optional
+},
+{
+  name = "subnet3-subnet"
+  number = 4
+  newbits = 1 #optional
+  service_endpoints = ["Microsoft.Storage"]
 }]
 ```
+
 ## Example for subnets with delegation
-Deligation is handled manually, there were too many moving parts for this to be handled with a dynamic loop
+
+```terraform
+subnets_with_delegation = [{
+  name = "subnet3-subnet"
+  number = 2
+  delegation = {
+    name    = "Microsoft.Web/serverFarms"
+    actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+}]
+```
+
+N.B. because `subnet` and `subnet_with_delegation` handle blank arrays you can mix and match
+## Example with Subnet and delegated subnets
+
+```terraform
+subnets = [{
+  name = "subnet1-subnet"
+  number = 0
+},
+{
+  name = "subnet3-subnet"
+  number = 2
+}]
+subnets_with_delegation = [{
+  name = "subnet2-subnet"
+  number = 1
+  delegation = {
+    name    = "Microsoft.Web/serverFarms"
+    actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+}]
+```
+
+N.B. It is advised to create a new subnet instead of changing an existing subnet between the 2 options. unless you are happy to deal with the fall out.
 
 ## Service Endpoints
 
