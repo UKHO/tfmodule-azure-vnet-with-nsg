@@ -34,3 +34,10 @@ resource "azurerm_subnet_network_security_group_association" "spokesubnetnsg" {
   subnet_id                 = azurerm_subnet.spokesubnet[count.index].id
   network_security_group_id = azurerm_network_security_group.nsg.id
 }
+
+resource "azurerm_subnet_network_security_group_association" "spokesubnetdelegatednsg" {
+  provider                  = azurerm.src
+  count                     = length(var.subnets_with_delegation)
+  subnet_id                 = azurerm_subnet.spokesubnet_delegated[count.index].id
+  network_security_group_id = azurerm_network_security_group.nsg.id
+}
