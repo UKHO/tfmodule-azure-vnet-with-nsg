@@ -6,7 +6,7 @@ resource "azurerm_subnet" "spokesubnet" {
   virtual_network_name = azurerm_virtual_network.spokevnet.name
   address_prefixes     = [cidrsubnet(local.base_cidr_block, try(var.subnets[count.index].newbits,var.newbits), var.subnets[count.index].number)]
   service_endpoints    = try(var.subnets[count.index].service_endpoints, var.service_endpoints)
-  lifecycle { ignore_changes = [private_endpoint_network_policies] }
+  lifecycle { ignore_changes = [private_endpoint_network_policies_enabled] }
 } 
 
 resource "azurerm_subnet" "spokesubnet_delegated" {
@@ -25,7 +25,7 @@ resource "azurerm_subnet" "spokesubnet_delegated" {
           actions = try(var.subnets_with_delegation[count.index].delegation.actions, ["Microsoft.Network/virtualNetworks/subnets/action"])
       }
     }
-  lifecycle { ignore_changes = [private_endpoint_network_policies] }
+  lifecycle { ignore_changes = [private_endpoint_network_policies_enabled] }
 } 
 
 resource "azurerm_subnet_network_security_group_association" "spokesubnetnsg" {
