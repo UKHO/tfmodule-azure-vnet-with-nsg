@@ -41,3 +41,8 @@ variable "tags" {
   type = map
   default = {}
 }
+
+variable "enable_outbound" {
+  type = bool
+  default = true
+}
