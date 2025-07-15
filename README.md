@@ -31,6 +31,11 @@ variable "tags" {
   }
 }
 
+variable "enable_outbound" {
+  type = bool
+  default = true
+}
+
 variable "subscriptionId {
 default="12312312312-312-312-3-12"
 }
@@ -54,14 +59,15 @@ module "setup" {
   providers = {
     azurerm.src = azurerm.alias
   }
-  prefix                        = "Prefix"
-  tags                          = "${var.tags}"
-  resource_group                = azurerm_resource_group.gg
-  address                       = "${var.address}"
-  subnets                       = "${var.subnets}"
-  subnets_with_delegation       = "${var.subnets_with_delegation}"
-  newbits                       = "4"
-  service_endpoints             = "${var.endpoints}"
+  prefix                          = "Prefix"
+  tags                            = "${var.tags}"
+  resource_group                  = azurerm_resource_group.gg
+  address                         = "${var.address}"
+  subnets                         = "${var.subnets}"
+  subnets_with_delegation         = "${var.subnets_with_delegation}"
+  newbits                         = "4"
+  service_endpoints               = "${var.endpoints}"
+  default_outbound_access_enabled = var.enable_outbound
 }
 ```
 
