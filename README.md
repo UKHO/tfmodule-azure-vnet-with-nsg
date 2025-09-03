@@ -54,21 +54,20 @@ resource "azurerm_resource_group" "gg" {
   tags = var.tags
 }
 
-module "setup" {
-  source                        = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.10.0"
-  providers = {
-    azurerm.src = azurerm.alias
+module "spokesetup" {
+  depends_on = [azurerm_resource_group.rg]
+  source     = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.12.0-Alpha.1"
+  providers  = {
+    azurerm.src = azurerm.spoke
   }
-  prefix                          = "Prefix"
-  tags                            = "${var.tags}"
-  resource_group                  = azurerm_resource_group.gg
-  address                         = "${var.address}"
-  subnets                         = "${var.subnets}"
-  subnets_with_delegation         = "${var.subnets_with_delegation}"
-  newbits                         = "4"
-  service_endpoints               = "${var.endpoints}"
-  default_outbound_access_enabled = var.enable_outbound
-}
+  resource_group          = azurerm_resource_group.rg
+  prefix                  = local.ProjectIdentity
+  address                 = local.MAIN_ADDRESS
+  dns_servers             = local.DNS_SERVERS
+  subnets                 = local.SUBNETS
+  newbits                 = local.NEWBITS
+  service_endpoints       = local.MAIN_ENDPOINTS
+}  
 ```
 
 if you arent woried about the version you use, latest can be retrieved by removing `?ref=x.y.z` from source path

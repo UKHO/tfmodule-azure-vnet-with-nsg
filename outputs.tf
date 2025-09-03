@@ -11,5 +11,9 @@ output "network_security_group_name" {
 }
 
 output "virtual_network_id" {
-  value = azurerm_virtual_network.spokevnet.id  # Ensure you're referencing the resource ID
+  value = azurerm_virtual_network.spokevnet.id
+}
+
+output "subnet_ids" {
+  value = { for name, subnet in azurerm_subnet.spokesubnet : name => subnet.id }
 }
