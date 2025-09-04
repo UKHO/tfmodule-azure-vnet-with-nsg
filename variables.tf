@@ -23,6 +23,7 @@ variable "subnets" {
   description = "Array of subnets. Each subnet can optionally have delegation."
   type = list(object({
     name               = string
+    newbits            = optional(number)
     number             = number
     delegation_name    = optional(string)
     delegation_actions = optional(list(string))
