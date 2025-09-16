@@ -1,5 +1,6 @@
 # Look up the VNet to get its allocated CIDR
 data "azurerm_virtual_network" "spokevnet" {
+  provider = azurerm.src
   name                = azurerm_virtual_network.spokevnet.name
   resource_group_name = var.resource_group.name
 }
