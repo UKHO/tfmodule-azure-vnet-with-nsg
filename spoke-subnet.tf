@@ -1,7 +1,3 @@
-locals {
-  base_cidr_block = azurerm_virtual_network.spokevnet.address_space[0]
-}
-
 resource "azurerm_subnet" "spokesubnet" {
   for_each             = { for s in var.subnets : s.name => s }
   name                 = each.value.name
@@ -11,7 +7,7 @@ resource "azurerm_subnet" "spokesubnet" {
 
   address_prefixes = [
     cidrsubnet(
-      local.base_cidr_block,
+      azurerm_virtual_network.spokevnet.address_prefixes[0],
       coalesce(each.value.newbits, var.newbits),
       each.value.number
     )
