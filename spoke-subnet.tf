@@ -2,7 +2,6 @@
 data "azurerm_virtual_network" "spokevnet" {
   name                = azurerm_virtual_network.spokevnet.name
   resource_group_name = var.resource_group.name
-  
 }
 
 locals {
@@ -10,7 +9,6 @@ locals {
 }
 
 resource "azurerm_subnet" "spokesubnet" {
-  depends_on = [azurerm_virtual_network.spokevnet]
   for_each             = { for s in var.subnets : s.name => s }
   name                 = each.value.name
   provider             = azurerm.src
