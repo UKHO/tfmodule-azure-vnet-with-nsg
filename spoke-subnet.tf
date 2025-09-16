@@ -5,7 +5,7 @@ data "azurerm_virtual_network" "spokevnet" {
 }
 
 locals {
-  base_cidr_block = data.azurerm_virtual_network.spokevnet.address_space[0]
+  base_cidr_block = azurerm_virtual_network.spokevnet.address_space[0]
 }
 
 resource "azurerm_subnet" "spokesubnet" {
