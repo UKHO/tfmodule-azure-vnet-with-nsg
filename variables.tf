@@ -63,7 +63,7 @@ variable "number_of_ip_addresses" {
 }
 
 
-variable "enable_outbound" {
-  type = bool
-  default = true
-}
+#variable "enable_outbound" {
+#  type = bool
+#  default = true
+#}

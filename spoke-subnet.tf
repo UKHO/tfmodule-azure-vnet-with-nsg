@@ -1,14 +1,15 @@
 # Look up the VNet to get its allocated CIDR
-data "azurerm_virtual_network" "spokevnet" {
-  name                = azurerm_virtual_network.spokevnet.name
-  resource_group_name = var.resource_group.name
-
-  depends_on = [azurerm_virtual_network.spokevnet]
-}
+#data "azurerm_virtual_network" "spokevnet" {
+#  name                = azurerm_virtual_network.spokevnet.name
+#  resource_group_name = var.resource_group.name
+#
+#  depends_on = [azurerm_virtual_network.spokevnet]
+#}
 
 locals {
-  base_cidr_block = data.azurerm_virtual_network.spokevnet.address_space[0]
+  base_cidr_block = tolist(azurerm_virtual_network.spokevnet.address_space)[0]
 }
+
 
 resource "azurerm_subnet" "spokesubnet" {
   for_each             = { for s in var.subnets : s.name => s }
