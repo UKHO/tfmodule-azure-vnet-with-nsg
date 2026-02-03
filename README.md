@@ -63,12 +63,15 @@ module "spokesetup" {
   resource_group          = azurerm_resource_group.rg
   prefix                  = local.ProjectIdentity
   address                 = local.MAIN_ADDRESS
+  address2                = local.MAIN_ADDRESS_2
   dns_servers             = local.DNS_SERVERS
   subnets                 = local.SUBNETS
   newbits                 = local.NEWBITS
   service_endpoints       = local.MAIN_ENDPOINTS
 }  
 ```
+
+Note: address2 is an optional variable to be used if the address range of the VNet needs to be extended beyond 256 addresses
 
 if you arent woried about the version you use, latest can be retrieved by removing `?ref=x.y.z` from source path
 

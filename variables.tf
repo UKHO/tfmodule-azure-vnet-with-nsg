@@ -14,10 +14,15 @@ variable "address" {
   description = "base address for subnets to be added"
 }
 
+variable "address2" {
+  description = "extension address for subnets to be added"
+  type    = string
+  default = null
+}
+
 variable "dns_servers" {
   description = "ips for dns server"
 }
-
 
 variable "subnets" {
   description = "Array of subnets. Each subnet can optionally have delegation."
