@@ -104,9 +104,8 @@ subnets = [{
 subnets_with_delegation = [{
   name = "subnet3-subnet"
   number = 2
-  delegation = {
-    name    = "Microsoft.Web/serverFarms"
-    actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+  delegation_name    = "Microsoft.Web/serverFarms"
+  delegation_actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
 }]
 ```
 
@@ -125,9 +124,8 @@ subnets = [{
 subnets_with_delegation = [{
   name = "subnet2-subnet"
   number = 1
-  delegation = {
-    name    = "Microsoft.Web/serverFarms"
-    actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+  delegation_name    = "Microsoft.Web/serverFarms"
+  delegation_actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
 }]
 ```
 
