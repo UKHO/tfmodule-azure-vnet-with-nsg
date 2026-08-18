@@ -6,7 +6,7 @@ resource "azurerm_subnet" "spokesubnet" {
   virtual_network_name = azurerm_virtual_network.spokevnet.name
   address_prefixes     = [cidrsubnet(local.base_cidr_block,coalesce(each.value.newbits, var.newbits),each.value.number)]
   default_outbound_access_enabled = var.enable_outbound
-  service_endpoint    = var.service_endpoints
+  service_endpoint     = var.service_endpoints
   
   dynamic "delegation" {
     for_each = each.value.delegation_name != null ? [1] : []
