@@ -34,8 +34,12 @@ variable "newbits" {
   default = 4
 }
 
-variable "service_endpoints" {  
-  default = ["Microsoft.Sql", "Microsoft.Storage", "Microsoft.KeyVault"]
+variable "service_endpoints" {
+  description = "List of service endpoints to associate with the subnet"
+  type = list(object({
+    service            = string
+    network_identifier = optional(string)
+  }))
 }
 
 variable "tags" {
