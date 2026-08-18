@@ -7,6 +7,14 @@ resource "azurerm_subnet" "spokesubnet" {
   address_prefixes     = [cidrsubnet(local.base_cidr_block,coalesce(each.value.newbits, var.newbits),each.value.number)]
   default_outbound_access_enabled = var.enable_outbound
   
+  dynamic "service_endpoint" {
+    for_each = var.service_endpoints
+    content {
+      service            = service_endpoint.value.service
+      network_identifier = service_endpoint.value.network_identifier
+    }
+  }
+  
   dynamic "delegation" {
     for_each = each.value.delegation_name != null ? [1] : []
     content {
