@@ -20,9 +20,15 @@ variable "subnets_with_delegation" {
   default = []
 }
 
-variable "service_endpoints" {
-  default = ["Microsoft.Sql", "Microsoft.Storage", "Microsoft.KeyVault"]
-}
+variable "service_endpoints"               = 
+[
+    {
+      service            = "Microsoft.Storage"
+    },
+    {
+      service            = "Microsoft.KeyVault"
+    }
+  ]
 
 variable "tags" {
   type = map
@@ -56,7 +62,7 @@ resource "azurerm_resource_group" "gg" {
 
 module "spokesetup" {
   depends_on = [azurerm_resource_group.rg]
-  source     = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.12.0-Alpha.1"
+  source     = "github.com/ukho/tfmodule-azure-vnet-with-nsg?ref=0.12.1"
   providers  = {
     azurerm.src = azurerm.spoke
   }
@@ -133,4 +139,15 @@ N.B. It is advised to create a new subnet instead of changing an existing subnet
 
 ## Service Endpoints
 
-An example of `service_endpoints` is ["Microsoft.Sql", "Microsoft.Storage", "Microsoft.KeyVault"]
+An example of `service_endpoints` in your locals is:
+
+MAIN_ENDPOINTS               = [
+    {
+      service            = "Microsoft.Storage"
+    },
+    {
+      service            = "Microsoft.KeyVault"
+    }
+  ]
+
+  You can set a network identifier as an optional parameter that accepts an ARM resource ID of a network resource to associate with the service endpoint. For most cases you can chose not to set it so it defaults as null.
