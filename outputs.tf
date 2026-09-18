@@ -11,5 +11,7 @@ output "network_security_group_name" {
 }
 
 output "subnet_ids" {
-  value = azurerm_subnet.spokesubnet[*].id
+  value = {
+    for idx, subnet in azurerm_subnet.spokesubnet : subnet.name => subnet.id
+  }
 }
