@@ -6,6 +6,7 @@ resource "azurerm_subnet" "spokesubnet" {
   virtual_network_name = azurerm_virtual_network.spokevnet.name
   address_prefixes     = [cidrsubnet(local.base_cidr_block,coalesce(each.value.newbits, var.newbits),each.value.number)]
   default_outbound_access_enabled = var.enable_outbound
+  private_endpoint_network_policies = var.private_endpoint_network_policies
   
   dynamic "service_endpoint" {
     for_each = var.service_endpoints
@@ -32,4 +33,4 @@ resource "azurerm_subnet_network_security_group_association" "spokesubnetnsg" {
   for_each                  = azurerm_subnet.spokesubnet
   subnet_id                 = each.value.id
   network_security_group_id = azurerm_network_security_group.nsg.id
-} 
+}

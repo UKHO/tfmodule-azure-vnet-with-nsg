@@ -51,3 +51,14 @@ variable "enable_outbound" {
   type = bool
   default = true
 }
+
+variable "private_endpoint_network_policies" {
+  description = "Network policies for private endpoints on the subnets. Defaults to Disabled (the AzureRM default)."
+  type        = string
+  default     = "Disabled"
+
+  validation {
+    condition     = contains(["Disabled", "Enabled", "NetworkSecurityGroupEnabled", "RouteTableEnabled"], var.private_endpoint_network_policies)
+    error_message = "Must be one of: Disabled, Enabled, NetworkSecurityGroupEnabled, RouteTableEnabled."
+  }
+}
