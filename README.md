@@ -137,6 +137,22 @@ subnets_with_delegation = [{
 
 N.B. It is advised to create a new subnet instead of changing an existing subnet between the 2 options. unless you are happy to deal with the fall out.
 
+## Example for subnets hosting a Private Link Service
+
+Azure requires `privateLinkServiceNetworkPolicies` to be `Disabled` on any subnet hosting a Private Link Service. Set the optional `private_link_service_network_policies_enabled` to `false` on that subnet only. If omitted it defaults to `true` (existing behaviour).
+
+```terraform
+subnets = [{
+  name   = "subnet1-subnet"
+  number = 0
+},
+{
+  name   = "pls-subnet"
+  number = 1
+  private_link_service_network_policies_enabled = false
+}]
+```
+
 ## Service Endpoints
 
 An example of `service_endpoints` in your locals is:

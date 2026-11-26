@@ -1,12 +1,12 @@
 variable "prefix" { 
-  description = "Prefix added to the front of the nsg and vnet" 
+  description = "Prefix added to the front of the nsg and vnet"
 }
 
 variable "resource_group" {
   description = "resource group object resources will be added to"
-  type = object({
-    name         = string
-    location     = string
+  type        = object({
+    name     = string
+    location = string
   })
 }
 
@@ -20,13 +20,14 @@ variable "dns_servers" {
 
 
 variable "subnets" {
-  description = "Array of subnets. Each subnet can optionally have delegation."
-  type = list(object({
-    name               = string
-    newbits            = optional(number)
-    number             = number
-    delegation_name    = optional(string)
-    delegation_actions = optional(list(string))
+  description = "Array of subnets. Each subnet can optionally have delegation. Set private_link_service_network_policies_enabled to false only on subnets hosting a Private Link Service."
+  type        = list(object({
+    name                                          = string
+    newbits                                       = optional(number)
+    number                                        = number
+    delegation_name                               = optional(string)
+    delegation_actions                            = optional(list(string))
+    private_link_service_network_policies_enabled = optional(bool, true)
   }))
 }
 
@@ -36,18 +37,18 @@ variable "newbits" {
 
 variable "service_endpoints" {
   description = "List of service endpoints to associate with the subnet"
-  type = list(object({
+  type        = list(object({
     service            = string
     network_identifier = optional(string)
   }))
 }
 
 variable "tags" {
-  type = map
+  type    = map
   default = {}
 }
 
 variable "enable_outbound" {
-  type = bool
+  type    = bool
   default = true
 }
