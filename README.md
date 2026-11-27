@@ -139,7 +139,7 @@ N.B. It is advised to create a new subnet instead of changing an existing subnet
 
 ## Example for subnets hosting a Private Link Service
 
-Azure requires `privateLinkServiceNetworkPolicies` to be `Disabled` on any subnet hosting a Private Link Service. Set the optional `private_link_service_network_policies_enabled` to `false` on that subnet only. If omitted it defaults to `true` (existing behaviour).
+Azure requires `privateLinkServiceNetworkPolicies` to be `Disabled` on any subnet hosting a Private Link Service. Set the optional `private_link_service_policies_enabled` to `false` on that subnet only. If omitted it defaults to `true` (existing behaviour).
 
 ```terraform
 subnets = [{
@@ -149,7 +149,7 @@ subnets = [{
 {
   name   = "pls-subnet"
   number = 1
-  private_link_service_network_policies_enabled = false
+  private_link_service_policies_enabled = false
 }]
 ```
 

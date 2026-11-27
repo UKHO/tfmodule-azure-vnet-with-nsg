@@ -20,14 +20,14 @@ variable "dns_servers" {
 
 
 variable "subnets" {
-  description = "Array of subnets. Each subnet can optionally have delegation. Set private_link_service_network_policies_enabled to false only on subnets hosting a Private Link Service."
+  description = "Array of subnets. Each subnet can optionally have delegation. Set private_link_service_policies_enabled to false only on subnets hosting a Private Link Service."
   type        = list(object({
-    name                                          = string
-    newbits                                       = optional(number)
-    number                                        = number
-    delegation_name                               = optional(string)
-    delegation_actions                            = optional(list(string))
-    private_link_service_network_policies_enabled = optional(bool, true)
+    name                                  = string
+    newbits                               = optional(number)
+    number                                = number
+    delegation_name                       = optional(string)
+    delegation_actions                    = optional(list(string))
+    private_link_service_policies_enabled = optional(bool, true)
   }))
 }
 
